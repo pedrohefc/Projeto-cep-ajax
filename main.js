@@ -15,8 +15,17 @@ $(function() {
     $('#cep').mask('00000-000');
 
     $('#btn-buscar-cep').on('click', function(){
+        event.preventDefault();
+        const nome = $('#nome').val().trim();
+        const sobrenome = $('#sobrenome').val().trim();
+
+        if (nome.length === 0 || sobrenome.length === 0) {
+            alert('Digite o nome completo primeiro!');
+            return; // Interrompe a execução e impede a busca do CEP
+        }
+        
         const cep = $('#cep').val();
-        const endpoint = `https://viacep.com.br/ws/${cep}/json/resultado`;
+        const endpoint = `https://viacep.com.br/ws/${cep}/json/`;
         const botao = $(this)
         $(botao).find('i').addClass('d-none');
         $(botao).find('span').removeClass('d-none');
@@ -56,11 +65,5 @@ $(function() {
                 $(botao).find('span').addClass('d-none');
             }, 1000);
         })
-    })
-
-    $('#formulario-pedido').on('submit', function(){
-        if($('#nome').val().length == 0){
-            throw new Error('Digite o nome');
-        }
     })
 })
